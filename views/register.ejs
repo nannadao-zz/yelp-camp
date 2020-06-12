@@ -1,45 +1,75 @@
 <%- include("./partials/header") %>
 
-<h1> Register </h1>
-<%-include ("./partials/messages")%>
-<form action="/register" method="POST">
-    <!-- Name field -->
-    <label for="name"> Name </label>
-    <input 
-        required
-        type="text" 
-        name="name" 
-        placeholder="Firstname Lastname"
-        value = "<%= typeof name != 'undefined' ? name : '' %>">
-    <!-- Email field -->
-    <label for="email"> Email </label>
-    <input 
-        required
-        type="email" 
-        name="email" 
-        placeholder="Email"
-        value="<%= typeof email != 'undefined' ? email : '' %>">
-    <!-- Password field -->
-    <label for="password"> Create password</label>
-    <input 
-        required
-        type="password" 
-        name="password" 
-        placeholder="Password"
-        value="<%= typeof password != 'undefined' ? password : '' %>">
-    <!-- Confirm password -->
-    <label for="password"> Confirm password </label>
-    <input 
-        required
-        type="password" 
-        name="password2" 
-        placeholder="Confirm password"
-        value="<%= typeof password2 != 'undefined' ? password : '' %>">
-    <button> Register </button>
-    <!-- Redirection -->
-    <p> Already have an account? 
-        <a href="/login"> Login  </a>
-    </p>
-</form>
+<div id="loginContainer" class="container">
+    <div class="row">
+        <div class="col-7"> 
+            <div class="text-center"> 
+                <img src="https://image.freepik.com/free-vector/online-registration-concept-with-isometric-view_23-2147976706.jpg"
+                class="rounded float-left"> 
+            </div>
+        </div>
+        <div class="col-5"> 
+            <div>
+                <h2 class="text-center"> Register </h2>
+                <div>
+                    <%-include ("./partials/messages")%>
+                </div>
+                <form action="/register" method="POST"> 
+                    <!-- FOR NAME -->
+                    <div class="form-group">
+                        <label for="name"> Your Name </label>
+                        <input class="form-control" 
+                        type="text" 
+                        name="name" 
+                        placeholder="firstname lastname"
+                        required
+                        value = "<%= typeof name != 'undefined' ? name : '' %>"
+                        >
+                    </div>
+                    <!-- FOR EMAIL -->
+                    <div class="form-group">
+                        <label for="email"> Email </label>
+                        <input class="form-control" 
+                        type="email" 
+                        name="email" 
+                        placeholder="email"
+                        required
+                        value = "<%= typeof email != 'undefined' ? email : '' %>"
+                        >
+                    </div>
+                    <!-- FOR PASSWORD 1 -->
+                    <div class="form-group">
+                        <label for="password"> Create password </label>
+                        <input class="form-control" 
+                        type="password" 
+                        name="password" 
+                        placeholder="password"
+                        required
+                        value = "<%= typeof password != 'undefined' ? password : '' %>"
+                        >
+                    </div>
+                    <!-- FOR PASSWORD 2 -->
+                    <div class="form-group">
+                        <label for="password2"> Confirm password </label>
+                        <input class="form-control" 
+                        type="password" 
+                        name="password2" 
+                        placeholder="confirm password"
+                        required
+                        value = "<%= typeof password2 != 'undefined' ? password2 : '' %>"
+                        >
+                    </div>
+                    <!-- SUBMIT BUTTON -->
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-lg btn-primary"> </input>
+                    </div>
+                </form>
+                <p> Already have an account? 
+                    <a href="/login"> Login  </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
 
 <%- include("./partials/footer") %>
