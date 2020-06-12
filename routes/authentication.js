@@ -1,7 +1,10 @@
 var express    = require("express"),
     router     = express.Router(),
     passport   = require("passport"),
-    User       = require("../models/user");
+    Localstrategy = require("passport-local"),
+    bcrypt          = require('bcrypt'),
+    User       = require("../models/user"),
+    authorize  = require("../config/authorize");
 
 //===========================================
 //AUTHENTICATION ROUTES
@@ -16,36 +19,58 @@ router.get("/register", (req,res) => {
 })
 
 router.post("/register", (req,res) => {
-    var newUser = new User({username: req.body.username});
-    User.register(newUser, req.body.password, (err,user) => {
-        if(err) {
-            req.flash("error", err.message);
-            return res.redirect("/register");
+    const {name,email,password,password2} = req.body
+    let errors = [];
+    if (name.length < 3) {
+        errors.push({message: "Name is too short"})
+    }
+    if (password.length < 6) {
+        errors.push({message: "Password must contain at least 6 characters"})
+    }
+    if (password !== password2) {
+        errors.push({message: "Passwords are not match"})
+    }
+    if (errors.length > 0) {
+        res.render("register",
+        {
+            errors,
+            name,
+            email,
         }
-        passport.authenticate("local")(req,res, () => {
-            req.flash("success", "Welcome, " + user.username + " !")
-            res.redirect("/campgrounds")
-        });
-    });
-});
+        )
+    }
+    else {
+        User.findOne({email:email})
+       .then (user => {
+           if(user) {
+           errors.push({message: "Email is already registered"});
+           res.render("register", {errors,name,email})
+        }  else {
+            bcrypt.hash(req.body.password, 10, (err,hash) => {
+                User.create({
+                    name: req.body.name,
+                    email: req.body.email,
+                    password: hash
+                })
+                .then (err => {
+                    if(err) {
+                        console.log(err)
+                    }
+                    req.flash("success", "Welcome, " + name + " !")
+                    res.redirect("/campgrounds")
+                })
+            })
+        }
+        }) 
+    }
+})
 
 //LOGIN ROUTES
-router.get("/login", (req,res) => {
-    res.render("login")
-})
+router.get("/login", authorize.loginPage)
 
-router.post("/login", passport.authenticate("local", 
-    {
-        successRedirect: "/campgrounds",
-        failureRedirect: "/login"
-}), (req,res) => {
-})
+router.post("/login", authorize.login)
 
 //LOGOUT ROUTES
-router.get("/logout", (req,res) => {
-    req.logout();
-    req.flash("success", "Logged Out!")
-    res.redirect("/campgrounds")
-})
+router.get("/logout", authorize.logout)
 
 module.exports = router;

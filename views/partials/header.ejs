@@ -14,11 +14,11 @@
                     <!-- Check if logged in + display -->
                     <% if(!currentUser) { %>
                         <li class="nav-item"> <a class="nav-link" href="/login"> Login </a> </li>
-                        <li class="nav-item"> <a class="nav-link" href="/register"> Sign Up </a> </li>
+                        <li class="nav-item"> <a class="nav-link" href="/register"> Register </a> </li>
                     <% } else { %>
                         <li class="nav-item"> 
                             <a class="nav-link" href="#">
-                                Hello, <strong> <%=currentUser.username %> </strong> !
+                                Hello, <strong> <%=currentUser.name %> </strong> !
                             </a>  
                         </li>
                         <li class="nav-item"> <a class="nav-link" href="/logout"> Logout </a> </li>

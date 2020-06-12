@@ -1,11 +1,45 @@
 <%- include("./partials/header") %>
 
 <h1> Register </h1>
-
+<%-include ("./partials/messages")%>
 <form action="/register" method="POST">
-    <input type="text" name="username" placeholder="username"> 
-    <input type="password" name="password" placeholder="password"> 
+    <!-- Name field -->
+    <label for="name"> Name </label>
+    <input 
+        required
+        type="text" 
+        name="name" 
+        placeholder="Firstname Lastname"
+        value = "<%= typeof name != 'undefined' ? name : '' %>">
+    <!-- Email field -->
+    <label for="email"> Email </label>
+    <input 
+        required
+        type="email" 
+        name="email" 
+        placeholder="Email"
+        value="<%= typeof email != 'undefined' ? email : '' %>">
+    <!-- Password field -->
+    <label for="password"> Create password</label>
+    <input 
+        required
+        type="password" 
+        name="password" 
+        placeholder="Password"
+        value="<%= typeof password != 'undefined' ? password : '' %>">
+    <!-- Confirm password -->
+    <label for="password"> Confirm password </label>
+    <input 
+        required
+        type="password" 
+        name="password2" 
+        placeholder="Confirm password"
+        value="<%= typeof password2 != 'undefined' ? password : '' %>">
     <button> Register </button>
+    <!-- Redirection -->
+    <p> Already have an account? 
+        <a href="/login"> Login  </a>
+    </p>
 </form>
 
 <%- include("./partials/footer") %>
